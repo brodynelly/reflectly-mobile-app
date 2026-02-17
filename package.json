@@ -16,7 +16,7 @@
     "victory": "^36.9.1",
     "victory-native": "^36.9.1",
     "@lucide/lab": "^0.1.2",
-    "@expo-google-fonts/inter": "^0.2.3",
+    "@expo-google-fonts/inter": "^0.4.2",
     "@expo-google-fonts/playfair-display": "^0.2.3",
     "@react-navigation/bottom-tabs": "^7.2.0",
     "@react-navigation/native": "^7.0.14",
