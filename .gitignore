@@ -32,3 +32,4 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+config.bat
