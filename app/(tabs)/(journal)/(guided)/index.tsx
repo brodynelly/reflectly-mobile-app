@@ -224,6 +224,12 @@ const themedStyles = createThemedStyles((theme) => ({
     padding: 24,
     alignItems: 'center',
   },
+  emptyStateImage: {
+    width: 180,
+    height: 180,
+    borderRadius: 90,
+    marginBottom: 20,
+  },
   emptyStateTitle: {
     fontFamily: 'Inter-SemiBold',
     fontSize: 18,

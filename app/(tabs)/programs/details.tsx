@@ -61,7 +61,7 @@ export default function ProgramDetailsScreen() {
         console.error('Error checking program status:', error);
       }
 
-      setHasStarted(progress && progress.length > 0);
+      setHasStarted(Boolean(progress?.length));
     } catch (error) {
       console.error('Error checking program status:', error);
     }

@@ -182,11 +182,6 @@ const styles = StyleSheet.create({
     color: '#64748b',
     marginBottom: 8,
   },
-  promptText: {
-    fontFamily: 'Inter-SemiBold',
-    fontSize: 16,
-    color: '#1e293b',
-  },
   responseLabel: {
     fontFamily: 'Inter-SemiBold',
     fontSize: 14,

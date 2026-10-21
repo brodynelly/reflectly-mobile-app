@@ -27,4 +27,4 @@ jobs:
         run: npm run lint --if-present
 
       - name: Test
-        run: npm test -- --passWithNoTests
+        run: npm test -- --runInBand
