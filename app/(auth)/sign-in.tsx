@@ -174,7 +174,6 @@ const themedStyles = createThemedStyles((theme, insets = { top: 0, bottom: 0 }) 
     height: 40,
     backgroundColor: theme.background,
     borderRadius: 20,
-    backgroundColor: '#f8fafc',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 32, // Increased spacing after back button

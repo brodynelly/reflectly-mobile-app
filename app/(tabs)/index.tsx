@@ -17,7 +17,7 @@ type Program = {
 };
 
 export default function TodayScreen() {
-  const { isDark } = useTheme();
+  const { isDark, colors: themeColors } = useTheme();
   const styles = themedStyles(isDark);
   const [greeting, setGreeting] = useState('');
   const [hasEntryToday, setHasEntryToday] = useState(false);
@@ -126,25 +126,21 @@ export default function TodayScreen() {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.programsScroll}>
           {programs.length > 0 ? programs.map((program) => {
-            const colors = getCardColors(programs.indexOf(program), program.progress);
             return (
               <Pressable
                 key={program.id}
                 style={[
                   styles.programCard,
-                  { 
-                    backgroundColor: colors.bg,
-                    borderColor: colors.border 
-                  }
+                  { backgroundColor: themeColors.card, borderColor: themeColors.border }
                 ]}
                 onPress={() => router.push({
                   pathname: '/programs/details',
                   params: { id: program.id }
                 })}>
                 <View style={styles.programHeader}>
-                  <BookOpen size={20} color={colors.text} />
-                  <View style={[styles.programBadge, { backgroundColor: colors.bg }]}>
-                    <Text style={[styles.programBadgeText, { color: colors.text }]}>
+                  <BookOpen size={20} color={themeColors.primary} />
+                  <View style={[styles.programBadge, { backgroundColor: themeColors.primaryBackground }]}>
+                    <Text style={[styles.programBadgeText, { color: themeColors.primary }]}>
                       {program.progress ? `${Math.round(program.progress)}% Complete` : program.difficulty}
                     </Text>
                   </View>

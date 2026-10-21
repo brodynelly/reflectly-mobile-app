@@ -216,7 +216,7 @@ export default function InsightsScreen() {
                 padding={{ top: 20, bottom: 30, left: 40, right: 20 }}
                 domainPadding={{ x: 20, y: [0, 20] }}>
                 <VictoryAxis
-                  tickFormat={(t) => ['Week 1', 'Week 2', 'Week 3', 'Week 4'][t]}
+                  tickFormat={(t: string | number) => ['Week 1', 'Week 2', 'Week 3', 'Week 4'][Number(t)]}
                   style={{
                     axis: { stroke: '#e2e8f0' },
                     tickLabels: {
@@ -269,9 +269,9 @@ export default function InsightsScreen() {
               <VictoryAxis
                 dependentAxis
                 tickValues={[1, 2, 3, 4, 5]}
-                tickFormat={(value) => {
+                tickFormat={(value: string | number) => {
                   const moodLabels = ['', 'Low', 'Neutral', 'Good', 'Great', 'Excellent'];
-                  return moodLabels[value];
+                  return moodLabels[Number(value)];
                 }}
                 style={{
                   axis: { stroke: '#e2e8f0' },

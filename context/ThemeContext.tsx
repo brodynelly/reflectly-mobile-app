@@ -32,11 +32,14 @@ export const colors = {
 };
 
 export function createThemedStyles<T extends StyleSheet.NamedStyles<T>>(
-  stylesCallback: (theme: typeof colors.light | typeof colors.dark) => T
+  stylesCallback: (
+    theme: typeof colors.light | typeof colors.dark,
+    insets?: { top: number; bottom: number }
+  ) => T
 ) {
-  return (isDark: boolean) => {
+  return (isDark: boolean, insets?: { top: number; bottom: number }) => {
     const theme = isDark ? colors.dark : colors.light;
-    return StyleSheet.create(stylesCallback(theme));
+    return StyleSheet.create(stylesCallback(theme, insets));
   };
 }
 

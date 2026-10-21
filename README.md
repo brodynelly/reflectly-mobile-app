@@ -42,17 +42,19 @@ A React Native application for daily journaling, mood tracking, and guided refle
    EXPO_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
    ```
 
+   Expo reads `EXPO_PUBLIC_` variables from the project environment. These values are bundled into the client app; use Supabase Row Level Security and never put a service-role key in this file.
+
 ## Usage
 
 ```bash
-npm start
+npm run dev
 ```
 
 Opens the Expo dev server. Scan the QR code with Expo Go or run on a simulator:
 
 ```bash
-npm run ios     # iOS simulator
-npm run android # Android emulator
+npm run dev -- --ios     # iOS simulator
+npm run dev -- --android # Android emulator
 ```
 
 ## Project Structure
