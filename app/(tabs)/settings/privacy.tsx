@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Pressable, Switch } from 'react-native';
+import { useCallback, useState, useEffect } from 'react';
+import { View, Text, Pressable, Switch } from 'react-native';
 import { router } from 'expo-router';
 import { useFonts, Inter_400Regular, Inter_600SemiBold } from '@expo-google-fonts/inter';
 import { PlayfairDisplay_700Bold } from '@expo-google-fonts/playfair-display';
@@ -8,19 +8,14 @@ import { useTheme, createThemedStyles } from '@/context/ThemeContext';
 import { supabase } from '@/lib/supabase';
 
 export default function PrivacyScreen() {
-  const { isDark, colors } = useTheme();
+  const { isDark } = useTheme();
   const styles = themedStyles(isDark);
   const [biometricLock, setBiometricLock] = useState(false);
   const [hideContent, setHideContent] = useState(true);
   const [dataCollection, setDataCollection] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    loadPrivacySettings();
-  }, []);
-
-  const loadPrivacySettings = async () => {
+  const loadPrivacySettings = useCallback(async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
@@ -41,10 +36,12 @@ export default function PrivacyScreen() {
     } catch (error) {
       console.error('Error loading privacy settings:', error);
       setError('Failed to load privacy settings');
-    } finally {
-      setIsLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    void loadPrivacySettings();
+  }, [loadPrivacySettings]);
 
   const updatePrivacySetting = async (
     setting: 'app_lock_enabled' | 'hide_content' | 'data_collection',
@@ -100,22 +97,6 @@ export default function PrivacyScreen() {
     } catch (error) {
       console.error('Error updating privacy setting:', error);
       setError('Failed to update privacy setting');
-    }
-  };
-
-  const handleDeleteAccount = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-
-      const { error } = await supabase.auth.admin.deleteUser(user.id);
-      if (error) throw error;
-
-      await supabase.auth.signOut();
-      router.replace('/');
-    } catch (error) {
-      console.error('Error deleting account:', error);
-      setError('Failed to delete account');
     }
   };
 
@@ -200,13 +181,11 @@ export default function PrivacyScreen() {
             <Text style={styles.buttonText}>Export My Data</Text>
           </Pressable>
 
-          <Pressable 
-            style={[styles.button, styles.dangerButton]}
-            onPress={handleDeleteAccount}>
-            <Text style={[styles.buttonText, styles.dangerButtonText]}>
-              Delete Account
+          <View style={styles.deletionNotice}>
+            <Text style={styles.deletionNoticeText}>
+              Account deletion is unavailable in this app. Contact the app administrator to request deletion.
             </Text>
-          </Pressable>
+          </View>
         
           {error && <Text style={styles.errorText}>{error}</Text>}
         </View>
@@ -299,12 +278,18 @@ const themedStyles = createThemedStyles((theme) => ({
     fontSize: 16,
     color: theme.text,
   },
-  dangerButton: {
-    backgroundColor: '#fef2f2',
-    borderColor: '#fecaca',
+  deletionNotice: {
+    backgroundColor: theme.card,
+    borderColor: theme.border,
+    borderWidth: 1,
+    borderRadius: 12,
+    marginTop: 12,
+    padding: 16,
   },
-  dangerButtonText: {
-    color: '#ef4444',
+  deletionNoticeText: {
+    fontFamily: 'Inter-Regular',
+    fontSize: 14,
+    color: theme.subtext,
   },
   errorText: {
     fontFamily: 'Inter-Regular',

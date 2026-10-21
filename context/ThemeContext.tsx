@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
 import { useColorScheme, StyleSheet } from 'react-native';
 import { supabase } from '@/lib/supabase';
 
@@ -53,7 +53,7 @@ type ThemeContextType = {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
+export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>('system');
   const systemColorScheme = useColorScheme();
   
@@ -64,11 +64,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const isDark = currentTheme === 'dark';
   const themeColors = isDark ? colors.dark : colors.light;
 
-  useEffect(() => {
-    loadTheme();
-  }, []);
-
-  const loadTheme = async () => {
+  const loadTheme = useCallback(async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
@@ -85,7 +81,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       console.error('Error loading theme:', error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    void loadTheme();
+  }, [loadTheme]);
 
   const updateTheme = async (newTheme: Theme) => {
     try {
